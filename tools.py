@@ -16,11 +16,6 @@ def inverse_SVD(U, Sigma, V):
     # inverse_SVD(SVD(X)) should be equal to X
     return np.dot(U, np.dot(Sigma, np.transpose(V)))
 
-def threshold_shrinkage(X, tau):
-    X[np.abs(X) <= tau] = 0
-    X[X >= tau] -= tau
-    X[X <= -tau] += tau
-
 
 def get_all_conditions(individual):
     folder_path = "data/YaleB-Dataset/images"
@@ -30,57 +25,6 @@ def get_all_conditions(individual):
     files = [f for f in files if '.pgm' in f]
     return files
 
-
-def load_image(individual,condition):
-    folder_path = "data/YaleB-Dataset/images"
-    individual_path = folder_path + "/yaleB0" + str(individual)
-    files = get_all_conditions(individual)
-
-
-def threshold_shrinkage(X, tau):
-    X[np.abs(X) <= tau] = 0
-    X[X >= tau] -= tau
-    X[X <= -tau] += tau
-    return X
-
-
-
-
-
-
-def get_all_conditions(individual):
-    folder_path = "data/YaleB-Dataset/images"
-    individual_path = folder_path + "/yaleB0" + str(individual)
-
-    files = os.listdir( individual_path )
-    files = [f for f in files if '.pgm' in f]
-    return files
-
-
-def load_image(individual,condition):
-    folder_path = "data/YaleB-Dataset/images"
-    individual_path = folder_path + "/yaleB0" + str(individual)
-    files = get_all_conditions(individual)
-
-
-def threshold_shrinkage(X, tau):
-    X[np.abs(X) <= tau] = 0
-    X[X >= tau] -= tau
-    X[X <= -tau] += tau
-    return X
-
-
-
-
-
-
-def get_all_conditions(individual):
-    folder_path = "data/YaleB-Dataset/images"
-    individual_path = folder_path + "/yaleB0" + str(individual)
-
-    files = os.listdir( individual_path )
-    files = [f for f in files if '.pgm' in f]
-    return files
 
 def read_pgm(filename, byteorder='>'):
     """Return image data from a raw PGM file as numpy array.
