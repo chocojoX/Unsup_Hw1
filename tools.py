@@ -18,6 +18,7 @@ def inverse_SVD(U, Sigma, V):
 
 
 def get_all_conditions(individual):
+    # Returns the list of all pgm files representing the individual if it exists (else, it should crash...)
     folder_path = "data/YaleB-Dataset/images"
     individual_path = folder_path + "/yaleB0" + str(individual)
 
@@ -27,9 +28,9 @@ def get_all_conditions(individual):
 
 
 def read_pgm(filename, byteorder='>'):
-    """Return image data from a raw PGM file as numpy array.
-    Format specification: http://netpbm.sourceforge.net/doc/pgm.html
-    """
+    # Return image data from a raw PGM file as numpy array.
+    # Format specification: http://netpbm.sourceforge.net/doc/pgm.html
+    # Credits : 'cgohlke' on https://stackoverflow.com/questions/7368739/numpy-and-16-bit-pgm
     with open(filename, 'rb') as f:
         buffer = f.read()
     try:
@@ -47,7 +48,8 @@ def read_pgm(filename, byteorder='>'):
                             ).reshape((int(height), int(width)))
 
 
-def load_image(individual,condition):
+def load_image(individual, condition):
+    # Load the image number 'condition' for the individual and returns it.
     folder_path = "data/YaleB-Dataset/images"
     individual_path = folder_path + "/yaleB0" + str(individual)
     files = get_all_conditions(individual)
@@ -55,8 +57,7 @@ def load_image(individual,condition):
     # assume condition<len(files), "Condition number too high, please choose another one (smaller than %i)" %(len(files))
     file_name = individual_path + "/" + files[condition]
     image = read_pgm(file_name)
-    plt.imshow(image, plt.cm.gray)
-    plt.show()
+    return image
 
 
 def threshold_shrinkage(X, tau):
@@ -79,4 +80,6 @@ if __name__=="__main__":
     print("inverse_SVD(SVD(X)) = ")
     print(inverse_SVD(U, Sigma, V))
 
-    load_image(1, 2)
+    image = load_image(1, 2)
+    plt.imshow(image, plt.cm.gray)
+    plt.show()
