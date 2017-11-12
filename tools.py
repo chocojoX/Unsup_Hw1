@@ -13,6 +13,11 @@ def inverse_SVD(U, Sigma, V):
     # inverse_SVD(SVD(X)) should be equal to X
     return np.dot(U, np.dot(Sigma, np.transpose(V)))
 
+def threshold_shrinkage(X, tau):
+    X[np.abs(X) <= tau] = 0
+    X[X >= tau] -= tau
+    X[X <= -tau] += tau
+
 
 if __name__=="__main__":
     """ Use this main function only to debug """
