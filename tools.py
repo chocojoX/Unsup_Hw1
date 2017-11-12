@@ -67,6 +67,33 @@ def threshold_shrinkage(X, tau):
     return X
 
 
+def flatten_picture(pict):
+    return pict.ravel(), pict.shape[0], pict.shape[1]
+
+
+def unflatten_picture(flat_pict, width, height):
+    # unflatten_picture(flatten_picture(pict)) = pict
+    return flat_pict.reshape(width, height)
+
+
+def get_all_flat_pictures(individual):
+    # Returns a matrix which lines are the flatten pictures of all individual
+    files = get_all_conditions(individual)
+    n = len(files)
+    all_images = []
+    for i in range(n):
+        image = load_image(individual, i)
+        image, width, height = flatten_picture(image)
+        all_images.append(image)
+
+    all_images = np.array(all_images)
+    print(all_images.shape)
+    return all_images, width, height
+
+
+
+
+
 if __name__=="__main__":
     """ Use this main function only to debug """
 
@@ -83,3 +110,10 @@ if __name__=="__main__":
     image = load_image(1, 2)
     plt.imshow(image, plt.cm.gray)
     plt.show()
+
+    flat, width, height = flatten_picture(image)
+    pict = unflatten_picture(flat, width, height)
+    plt.imshow(pict, plt.cm.gray)
+    plt.show()
+
+    all_images, width, height = get_all_flat_pictures(1)
