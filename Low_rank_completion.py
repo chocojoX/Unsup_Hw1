@@ -4,24 +4,13 @@ from tools import *
 
 
 def P_Omega(X, W):
-    assume np.sum(np.abs(W * (1-W))) == 0, "Omeaga should be composed only of zeros and ones"
+    assume np.sum(np.abs(W * (1-W))) == 0, "Omega should be composed only of zeros and ones"
     return W * X
-
-def S_tau(Sigma, tau):
-    for i in range(Sigma.shape[0]):
-        val = Sigma[i, i]
-        if val > tau:
-            Sigma[i, i] = val-tau
-        elif val<-tau:
-            Sigma[i, i] = val+tau
-        else:
-            Sigma[i, i] = 0
-    return Sigma
 
 
 def D_tau(X, tau):
     U, Sigma, V = SVD(X)
-    Sigma = S_tau(Sigma, tau)
+    Sigma = threshold_shrinkage(Sigma, tau)
     return inverse_SVD(U, Sigma, V)
 
 
