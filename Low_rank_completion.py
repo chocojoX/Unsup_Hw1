@@ -19,10 +19,10 @@ def D_tau(X, tau):
 def lrmc(X, W, tau, beta):
     Z = P_Omega(X, W)
     A = X
-    EPS = 0.001 * X.shape[0] * X.shape[1]
+    EPS = 0.5 * X.shape[0] * X.shape[1]
     dist = EPS + 1
 
-    while dist>EPS:
+    while dist>EPS and dist < 10**13:
         A_old= np.copy(A)
         A = D_tau(Z, tau)
         Z = Z + beta * (P_Omega(X-A,W))
@@ -45,14 +45,13 @@ def run_test(individual, p, tau):
     return all_images, noisy_images, completed_images, width, height
 
 
-
 if __name__=="__main__":
-    condition = 2
+    condition = 12
     individual = 1
-    p=0.2
+    p=0.4
     tau = 40000
 
-    all_images, noisy_images, completed_images, width, height = run_test(individual, p)
+    all_images, noisy_images, completed_images, width, height = run_test(individual, p, tau)
 
     image = all_images[condition,:]
     image = unflatten_picture(image, width, height)
@@ -61,7 +60,6 @@ if __name__=="__main__":
     completed_image = completed_images[condition, :]
     completed_image = unflatten_picture(completed_image, width, height)
 
-    print(completed_image - noisy_image)
     plt.subplot(1,3,1)
     plt.imshow(image, plt.cm.gray)
     plt.title("Original Image")
