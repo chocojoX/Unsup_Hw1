@@ -94,14 +94,12 @@ def get_all_flat_pictures(individual):
         all_images.append(image)
 
     all_images = np.array(all_images)
-    print(all_images.shape)
     return all_images, width, height
 
 
 def remove_values(X, p=0.2):
     # removes entries of X with probability p
     Omega = np.random.rand(X.shape[0], X.shape[1])
-    print(Omega.shape)
     Omega[Omega<p] = 0
     Omega[Omega>=p] = 1
     return X * Omega
@@ -139,7 +137,7 @@ if __name__=="__main__":
     plt.show()
 
     all_images, width, height = get_all_flat_pictures(1)
-    noisy_images = remove_values(all_images, p=0.2)
+    noisy_images = remove_values(all_images, p=0.4)
     pict = noisy_images[0, :]
     pict = unflatten_picture(pict, width, height)
     plt.imshow(pict, plt.cm.gray)
