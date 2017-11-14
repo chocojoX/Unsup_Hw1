@@ -107,6 +107,13 @@ def remove_values(X, p=0.2):
     return X * Omega
 
 
+def compute_L2_error(X, X_star):
+    return np.sum((X - X_star)**2)
+
+
+def compute_columnwise_L2(X, X_star):
+    return np.sum((X - X_star), axis = 0)
+
 
 
 if __name__=="__main__":
