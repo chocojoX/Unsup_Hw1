@@ -130,7 +130,8 @@ def plot_reconstruction(all_images, noisy_images, completed_images, condition, w
     plt.title("Partially Destroyed Image")
 
     plt.subplot(1,3,3)
-    plt.imshow(completed_image +254/2, plt.cm.gray)
+    completed_image = np.maximum(0, np.minimum(completed_image, 255))
+    plt.imshow(completed_image, plt.cm.gray)
     if message is None:
         plt.title("Reconstructed Image")
     else:
@@ -153,15 +154,18 @@ if __name__=="__main__":
     print("inverse_SVD(SVD(X)) = ")
     print(inverse_SVD(U, Sigma, V))
 
+    # Testing loading
     image = load_image(2, 1)
     plt.imshow(image, plt.cm.gray)
     plt.show()
 
+    # Testing Flatten and unflatten
     flat, width, height = flatten_picture(image)
     pict = unflatten_picture(flat, width, height)
     plt.imshow(pict, plt.cm.gray)
     plt.show()
 
+    # Testing get_all_flat_pictures
     all_images, width, height = get_all_flat_pictures(1)
     noisy_images = remove_values(all_images, p=0.4)
     pict = noisy_images[0, :]
