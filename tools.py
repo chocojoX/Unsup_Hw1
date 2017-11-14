@@ -20,7 +20,10 @@ def inverse_SVD(U, Sigma, V):
 def get_all_conditions(individual):
     # Returns the list of all pgm files representing the individual if it exists (else, it should crash...)
     folder_path = "data/YaleB-Dataset/images"
-    individual_path = folder_path + "/yaleB0" + str(individual)
+    if individual < 4:
+    	individual_path = folder_path + "/yaleB0" + str(individual)
+    else:
+    	individual_path = folder_path + "/outliers"
 
     files = os.listdir( individual_path )
     files = [f for f in files if '.pgm' in f]
@@ -35,7 +38,7 @@ def read_pgm(filename, byteorder='>'):
         buffer = f.read()
     try:
         header, width, height, maxval = re.search(
-            b"(^P5\s(?:\s*#.*[\r\n])*"
+            b"(^P.\s(?:\s*#.*[\r\n])*"
             b"(\d+)\s(?:\s*#.*[\r\n])*"
             b"(\d+)\s(?:\s*#.*[\r\n])*"
             b"(\d+)\s(?:\s*#.*[\r\n]\s)*)", buffer).groups()
@@ -51,7 +54,10 @@ def read_pgm(filename, byteorder='>'):
 def load_image(individual, condition):
     # Load the image number 'condition' for the individual and returns it.
     folder_path = "data/YaleB-Dataset/images"
-    individual_path = folder_path + "/yaleB0" + str(individual)
+    if individual <4:
+    	individual_path = folder_path + "/yaleB0" + str(individual)
+    else:
+    	individual_path = folder_path + "/outliers"
     files = get_all_conditions(individual)
 
     # assume condition<len(files), "Condition number too high, please choose another one (smaller than %i)" %(len(files))
@@ -115,7 +121,7 @@ if __name__=="__main__":
     print("inverse_SVD(SVD(X)) = ")
     print(inverse_SVD(U, Sigma, V))
 
-    image = load_image(1, 2)
+    image = load_image(2, 1)
     plt.imshow(image, plt.cm.gray)
     plt.show()
 
