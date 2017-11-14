@@ -33,23 +33,27 @@ def lrmc(X,W,tau,beta):
 
 
 if __name__=="__main__":
-    tau = 25
-    beta = 0.3
-
-
+ 
+    #Loading images, deleting part of each
     all_images, width, height = get_all_flat_pictures(1)
     all_images = all_images[:30,:]
-    image = all_images[0,:]
+    image = all_images[17,:]
     image = unflatten_picture(image, width, height)
     noisy_images = remove_values(all_images, p=0.2)
-    noisy_image = noisy_images[0, :]
+    noisy_image = noisy_images[17, :]
     noisy_image = unflatten_picture(noisy_image, width, height)
 
 
     W = (noisy_images != 0).astype(int)
-    completed_images = lrmc(noisy_images, W, tau, beta)
+    M = np.sum(W)
+    D,N = all_images.shape
+    tau = 2
+    beta = min(2,D*N/M)
 
-    completed_image = completed_images[0, :]
+
+
+    completed_images = lrmc(noisy_images, W, tau, beta)
+    completed_image = completed_images[17, :]
     completed_image = unflatten_picture(completed_image, width, height)
 
 
