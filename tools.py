@@ -6,7 +6,7 @@ import re
 
 def SVD(X):
     # Return, U, Sigma, V such that X = U.Sigma.V^T
-    U, Sigma, V = np.linalg.svd(X)
+    U, Sigma, V = np.linalg.svd(X, full_matrices=False)
     # Careful, np.linalg.svd return U, sigma, transpose(V) --> V need to be transposed.
     return U, np.diag(Sigma), np.transpose(V)
 
@@ -14,7 +14,8 @@ def SVD(X):
 def inverse_SVD(U, Sigma, V):
     # Returns U.Sigma.V^T
     # inverse_SVD(SVD(X)) should be equal to X
-    return np.dot(U, np.dot(Sigma, np.transpose(V)))
+    temp = np.dot(Sigma, np.transpose(V))
+    return np.dot(U, temp)
 
 
 def get_all_conditions(individual):
