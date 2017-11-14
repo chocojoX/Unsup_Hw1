@@ -110,10 +110,10 @@ def compute_L2_error(X, X_star):
 
 
 def compute_columnwise_L2(X, X_star):
-    return np.sum((X - X_star), axis = 0)
+    return np.sum((X - X_star), axis = 1)
 
 
-def plot_reconstruction(all_images, noisy_images, completed_images, condition, width, height):
+def plot_reconstruction(all_images, noisy_images, completed_images, condition, width, height, message=None):
     image = all_images[condition,:]
     image = unflatten_picture(image, width, height)
     noisy_image = noisy_images[condition, :]
@@ -131,7 +131,10 @@ def plot_reconstruction(all_images, noisy_images, completed_images, condition, w
 
     plt.subplot(1,3,3)
     plt.imshow(completed_image +254/2, plt.cm.gray)
-    plt.title("Reconstructed Image")
+    if message is None:
+        plt.title("Reconstructed Image")
+    else:
+        plt.title(message)
     plt.show()
 
 
