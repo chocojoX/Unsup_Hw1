@@ -53,22 +53,4 @@ if __name__=="__main__":
 
     all_images, noisy_images, completed_images, width, height = run_test(individual, p, tau)
 
-    image = all_images[condition,:]
-    image = unflatten_picture(image, width, height)
-    noisy_image = noisy_images[condition, :]
-    noisy_image = unflatten_picture(noisy_image, width, height)
-    completed_image = completed_images[condition, :]
-    completed_image = unflatten_picture(completed_image, width, height)
-
-    plt.subplot(1,3,1)
-    plt.imshow(image, plt.cm.gray)
-    plt.title("Original Image")
-
-    plt.subplot(1,3,2)
-    plt.imshow(noisy_image, plt.cm.gray)
-    plt.title("Partially Destroyed Image")
-
-    plt.subplot(1,3,3)
-    plt.imshow(completed_image +254/2, plt.cm.gray)
-    plt.title("Reconstructed Image")
-    plt.show()
+    plot_reconstruction(all_images, noisy_images, completed_images, condition, width, height)
