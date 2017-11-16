@@ -19,7 +19,7 @@ def D_tau(X, tau):
 def lrmc(X, W, tau, beta):
     Z = P_Omega(X, W)
     A = X
-    EPS = 0.5 * X.shape[0] * X.shape[1]
+    EPS = 0.1 * X.shape[0] * X.shape[1]
     dist = EPS + 1
 
     while dist>EPS and dist < 10**13:
@@ -48,9 +48,8 @@ def run_test(individual, p, tau):
 if __name__=="__main__":
     condition = 12
     individual = 1
-    p=0.4
+    p=0.2
     tau = 40000
 
     all_images, noisy_images, completed_images, width, height = run_test(individual, p, tau)
-
     plot_reconstruction(all_images, noisy_images, completed_images, condition, width, height)
