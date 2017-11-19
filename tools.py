@@ -198,10 +198,31 @@ def load_movie_ratings():
     return matrix_genre1, matrix_genre2, matrix_all_movies
 
 
+def split_train_test_netflix(data, p_train=0.8):
+    W = data[data>0].astype(int)
+    p_test = 1-p_train
+    Omega = np.random.rand(data.shape[0], data.shape[1])
+    Omega[Omega<p_test] = 0
+    Omega[Omega>=p_test] = 1
+
+    train = data * W * Omega   # No need for W multiplication but it was added for clarity
+    test = data * W * (1 - Omega)
+
+    where_train = W * Omega
+    where_test = W * (1-Omega)
+    return train, test, where_train, where_test
+    # where_train is equal to 1 where train values are non zero, where_test = 1 where test is equal to 1.
+
+
+
+
+
 if __name__=="__main__":
     """ Use this main function only to debug """
 
     horror, romance, matrix_all_movies = load_movie_ratings()
+    
+
 
     ### Testing SVD
     X = np.array([[15,1,1], [1,20,1], [1,1,25]])
