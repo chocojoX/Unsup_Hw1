@@ -199,7 +199,7 @@ def load_movie_ratings():
 
 
 def split_train_test_netflix(data, p_train=0.8):
-    W = data[data>0].astype(int)
+    W = np.sign(data)
     p_test = 1-p_train
     Omega = np.random.rand(data.shape[0], data.shape[1])
     Omega[Omega<p_test] = 0
@@ -221,7 +221,7 @@ if __name__=="__main__":
     """ Use this main function only to debug """
 
     horror, romance, matrix_all_movies = load_movie_ratings()
-    
+    train, test, where_train, where_test = split_train_test_netflix(matrix_all_movies)
 
 
     ### Testing SVD
