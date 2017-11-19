@@ -139,10 +139,69 @@ def plot_reconstruction(all_images, noisy_images, completed_images, condition, w
     plt.show()
 
 
+def load_movie_ratings():
+    with open('data/romance_horror.txt', 'r') as f:
+        lines = f.read()
+
+    # Let's build the rating matrix !
+    users_cpt = 0; genre_1_cpt = 0; genre_2_cpt = 0; movies_cpt = 0
+    # Create dictionaries to create new ids
+    users = {}
+    genre_1 = {}
+    genre_2 = {}
+    movies = {}
+
+    lines = lines.split('\n')
+    for l in lines[1:]:
+        l = l.split(',')
+        user = l[0]
+        genre = l[1]
+        movie = l[2]
+        if user not in users.keys():
+            users[user] = users_cpt
+            users_cpt += 1
+        if genre == '1':
+            if movie not in genre_1.keys():
+                genre_1[movie] = genre_1_cpt
+                movies[movie] = movies_cpt
+                genre_1_cpt += 1
+                movies_cpt += 1
+        if genre == '2':
+            if movie not in genre_2.keys():
+                genre_2[movie] = genre_2_cpt
+                genre_2_cpt += 1
+                movies[movie] = movies_cpt
+                movies_cpt += 1
+
+    matrix_genre1 = np.zeros((users_cpt, genre_1_cpt))
+    matrix_genre2 = np.zeros((users_cpt, genre_2_cpt))
+    matrix_all_movies = np.zeros((users_cpt, movies_cpt))
+
+    # Now, let's get the data to the matrices !
+
+    for l in lines[1:]:
+        l = l.split(',')
+        user_id = users[l[0]]
+        genre = l[1]
+        rating = l[3]
+        if genre == '1':
+            genre1_id = genre_1[l[2]]
+            movie_id = movies[l[2]]
+            matrix_genre1[user_id, genre1_id] = float(rating)
+            matrix_all_movies[user_id, movie_id] = float(rating)
+        if genre == '2':
+            genre2_id = genre_2[l[2]]
+            movie_id = movies[l[2]]
+            matrix_genre2[user_id, genre2_id] = float(rating)
+            matrix_all_movies[user_id, movie_id] = float(rating)
+
+    return matrix_genre1, matrix_genre2, matrix_all_movies
 
 
 if __name__=="__main__":
     """ Use this main function only to debug """
+
+    horror, romance, matrix_all_movies = load_movie_ratings()
 
     ### Testing SVD
     X = np.array([[15,1,1], [1,20,1], [1,1,25]])
