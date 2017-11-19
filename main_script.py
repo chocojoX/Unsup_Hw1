@@ -5,6 +5,9 @@ from tools import *
 
 
 def question2():
+    print('#'*50)
+    print('Starting image completion algorithm')
+    print('#'*50)
     individual = 1
 
     for p in [0, 0.2, 0.4]:
@@ -36,5 +39,27 @@ def question2():
         plot_reconstruction(all_images, noisy_images, completed_images, worst_condition, width, height, message = "worst reconstructed face")
 
 
+def question3():
+    print('#'*50)
+    print('Starting movie recommendation algorithm')
+    print('#'*50)
+    horror, romance, matrix_all_movies = load_movie_ratings()
+    train, test, where_train, where_test = split_train_test_netflix(matrix_all_movies)
+    M = np.sum(where_train)
+    D,N = train.shape
+    beta = min(2,D*N/M)
+    taus = []
+    errors = []
+    for tau in range(0, 200, 5):
+        reconstructed = lrmc(train, where_train, tau, beta)
+        error = np.sqrt(np.sum((reconstructed*where_test - test*where_test)**2) / np.sum(where_test))
+        taus.append(tau), errors.append(error)
+    plt.plot(taus, errors)
+    plt.show()
+
+
+
+
 if __name__=="__main__":
-    question2()
+    # question2()
+    question3()
