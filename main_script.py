@@ -43,18 +43,29 @@ def question3():
     print('#'*50)
     print('Starting movie recommendation algorithm')
     print('#'*50)
-    horror, romance, matrix_all_movies = load_movie_ratings()
-    train, test, where_train, where_test = split_train_test_netflix(matrix_all_movies)
-    M = np.sum(where_train)
-    D,N = train.shape
-    beta = min(2,D*N/M)
-    taus = []
-    errors = []
-    for tau in range(0, 200, 5):
-        reconstructed = lrmc(train, where_train, tau, beta)
-        error = np.sqrt(np.sum((reconstructed*where_test - test*where_test)**2) / np.sum(where_test))
-        taus.append(tau), errors.append(error)
-    plt.plot(taus, errors)
+    matrices = load_movie_ratings()
+    # horror, romance, matrix_all_movies = matrices
+    names = ['horror movies', 'romance movies', 'all movies']
+
+    for i in range(3):
+        train, test, W, where_test = split_train_test_netflix(matrices[i], p_train=0.8)
+        n_train = np.sum(W)
+        average_rating = np.sum(train)/n_train
+        D,N = train.shape
+        beta = min(3,D*N/n_train)
+        taus = []
+        errors = []
+        for tau in range(10, 30, 2):
+            reconstructed = lrmc(train-average_rating*W, W, tau, beta)+average_rating
+            # Convert the resulting matrix to integer type between 1 and 5
+            reconstructed = (np.maximum(1, np.minimum(5, reconstructed+0.5))).astype(int)
+            error = np.sqrt(np.sum((reconstructed*where_test - test*where_test)**2) / np.sum(where_test))
+            taus.append(tau); errors.append(error)
+        plt.plot(taus, errors, label = names[i])
+    plt.legend(loc='best')
+    plt.xlabel('tau')
+    plt.ylabel('Root mean square error')
+    plt.title('Reconstruction error as a function of Tau')
     plt.show()
 
 
