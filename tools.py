@@ -223,7 +223,6 @@ if __name__=="__main__":
     horror, romance, matrix_all_movies = load_movie_ratings()
     train, test, where_train, where_test = split_train_test_netflix(matrix_all_movies)
 
-
     ### Testing SVD
     X = np.array([[15,1,1], [1,20,1], [1,1,25]])
     print("X = ")
