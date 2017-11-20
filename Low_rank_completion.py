@@ -1,5 +1,6 @@
 import numpy as np
 from tools import *
+import copy
 
 
 def P_Omega(X, W):
@@ -18,14 +19,16 @@ def D_tau(X, tau):
 
 def lrmc(X, W, tau, beta):
     Z = P_Omega(X, W)
-    A = X
-    EPS = 0.1 * X.shape[0] * X.shape[1]
+    A = copy.copy(X)
+    EPS = 0.05 * X.shape[0] * X.shape[1]
     dist = EPS + 1
 
     while dist>EPS and dist < 10**13:
         A_old= np.copy(A)
-        A = D_tau(Z, tau)
+        A = D_tau(P_Omega(Z, W), tau)
         Z = Z + beta * (P_Omega(X-A,W))
+        # print(Z)
+        # import pdb; pdb.set_trace()
         dist = np.sum(np.abs(A-A_old))
     return A
 
