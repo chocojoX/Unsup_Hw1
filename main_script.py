@@ -15,6 +15,7 @@ def question2():
         all_errors = []
         taus = [10, 100, 1000, 3000, 7500, 10000, 17500, 25000, 35000, 50000, 62500, 75000, 100000, 150000, 175000, 200000]
         for tau in taus:
+            print("--------------------- %i ------------------------" %(tau))
             all_images, noisy_images, completed_images, w, h = run_test(individual, p, tau)
             error = compute_L2_error(all_images, completed_images)
             all_errors.append(np.sqrt(error/(all_images.shape[0]*all_images.shape[1])))
@@ -36,7 +37,7 @@ def question2():
         worst_condition = np.argmax(picture_errors)
 
         plot_reconstruction(all_images, noisy_images, completed_images, best_condition, width, height, message="Best reconstructed face")
-        plot_reconstruction(all_images, noisy_images, completed_images, worst_condition, width, height, message = "worst reconstructed face")
+        plot_reconstruction(all_images, noisy_images, completed_images, worst_condition, width, height, message = "Worst reconstructed face")
 
 
 def question3():
@@ -72,5 +73,5 @@ def question3():
 
 
 if __name__=="__main__":
-    # question2()
+    #question2()
     question3()

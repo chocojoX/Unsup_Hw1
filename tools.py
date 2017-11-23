@@ -110,7 +110,7 @@ def compute_L2_error(X, X_star):
 
 
 def compute_columnwise_L2(X, X_star):
-    return np.sum((X - X_star), axis = 1)
+    return np.sum((X - X_star)**2, axis = 1)
 
 
 def plot_reconstruction(all_images, noisy_images, completed_images, condition, width, height, message=None):
