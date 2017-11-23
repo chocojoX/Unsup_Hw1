@@ -8,14 +8,14 @@ def question2(individual = 1):
     print('#'*50)
     print('Starting image completion algorithm')
     print('#'*50)
-    
+
 
     for p in [0, 0.2, 0.4]:
         print("Lauching tests for %i %% missing pixels" %(100*p))
         all_errors = []
         taus = [10, 100, 1000, 3000, 7500, 10000, 17500, 25000, 35000, 50000, 62500, 75000, 100000, 150000, 175000, 200000]
         for tau in taus:
-            print("--------------------- %i ------------------------" %(tau))
+            print("Tau = %i" %(tau))
             all_images, noisy_images, completed_images, w, h = run_test(individual, p, tau)
             error = compute_L2_error(all_images, completed_images)
             all_errors.append(np.sqrt(error/(all_images.shape[0]*all_images.shape[1])))
@@ -41,9 +41,4 @@ def question2(individual = 1):
 
 
 if __name__=="__main__":
-<<<<<<< HEAD:main_script.py
-    #question2()
-    question3()
-=======
     question2(individual = 1)
->>>>>>> 9a7d2ef285e5ffed5bf9077af9b5e046678086a4:main_script_q2.py

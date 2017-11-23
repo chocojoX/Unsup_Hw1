@@ -20,17 +20,14 @@ def D_tau(X, tau):
 def lrmc(X, W, tau, beta):
     Z = P_Omega(X, W)
     A = copy.copy(X)
-    EPS = 0.03 * X.shape[0] * X.shape[1]
+    EPS = 0.5 * X.shape[0] * X.shape[1]
     dist = EPS + 1
-    nb_iter = 0
     while dist>EPS and dist < 10**13:
         A_old= np.copy(A)
         A = D_tau(P_Omega(Z, W), tau)
         Z = Z + beta * (P_Omega(X-A,W))
 
         dist = np.sum(np.abs(A-A_old))
-        nb_iter += 1
-    print("nb_iter : %i" % (nb_iter))
     return A
 
 
