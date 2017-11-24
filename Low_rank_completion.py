@@ -31,10 +31,11 @@ def lrmc(X, W, tau, beta):
     return A
 
 
-def run_test(individual, p, tau):
+def run_test(individual, p, tau, all):
     #Loading images, deleting part of each
     all_images, width, height = get_all_flat_pictures(individual)
-    all_images = all_images[:,:]
+    if not all:
+        all_images = all_images[:10,:]
     noisy_images = remove_values(all_images, p=p)
 
     #W = (noisy_images != 0).astype(int)
@@ -51,8 +52,8 @@ if __name__=="__main__":
     condition = 9
 
     individual = 1
-    p = 0.7
-    tau = 55000
+    p = 0.4
+    tau = 35000
 
-    all_images, noisy_images, completed_images, width, height = run_test(individual, p, tau)
+    all_images, noisy_images, completed_images, width, height = run_test(individual, p, tau, True)
     plot_reconstruction(all_images, noisy_images, completed_images, condition, width, height)
